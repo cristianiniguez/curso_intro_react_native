@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, ActivityIndicator, FlatList, StyleSheet} from 'react-native';
 
 import CoinsItem from './CoinsItem';
+import colors from '../../res/colors';
 
 import http from '../../libs/http';
 
@@ -47,7 +48,7 @@ class CoinsScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'white',
+    backgroundColor: colors.charade,
   },
   titleText: {
     color: 'white',
