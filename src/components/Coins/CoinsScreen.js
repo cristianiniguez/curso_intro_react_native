@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {View, ActivityIndicator, FlatList, StyleSheet} from 'react-native';
 
 import CoinsItem from './CoinsItem';
-import colors from '../../res/colors';
 
-import http from '../../libs/http';
+import colors from 'cryptoTracker/src/res/colors';
+import http from 'cryptoTracker/src/libs/http';
 
 class CoinsScreen extends Component {
   state = {
