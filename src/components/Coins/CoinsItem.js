@@ -1,9 +1,9 @@
 import React from 'react';
-import {View, Text, Image, StyleSheet, Platform} from 'react-native';
+import {View, Text, Pressable, Image, StyleSheet, Platform} from 'react-native';
 
 import colors from 'cryptoTracker/src/res/colors';
 
-const CoinsItem = ({item}) => {
+const CoinsItem = ({item, onPress}) => {
   const getImgArrow = () => {
     if (item.percent_change_1h > 0) {
       return require('cryptoTracker/src/assets/arrow_up.png');
@@ -13,7 +13,7 @@ const CoinsItem = ({item}) => {
   };
 
   return (
-    <View style={styles.container}>
+    <Pressable style={styles.container} onPress={onPress}>
       <View style={styles.row}>
         <Text style={styles.symbolText}>{item.symbol}</Text>
         <Text style={styles.nameText}>{item.name}</Text>
@@ -23,7 +23,7 @@ const CoinsItem = ({item}) => {
         <Text style={styles.percentText}>{item.percent_change_1h}</Text>
         <Image style={styles.imgIcon} source={getImgArrow()} />
       </View>
-    </View>
+    </Pressable>
   );
 };
 
