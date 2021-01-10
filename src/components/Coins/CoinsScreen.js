@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, ActivityIndicator, FlatList, StyleSheet} from 'react-native';
 
+import CoinsSearch from './CoinsSearch';
 import CoinsItem from './CoinsItem';
 
 import colors from 'cryptoTracker/src/res/colors';
@@ -9,23 +10,43 @@ import http from 'cryptoTracker/src/libs/http';
 class CoinsScreen extends Component {
   state = {
     coins: [],
+    allCoins: [],
     loading: false,
   };
 
   componentDidMount() {
-    this.fetchData();
+    this.getCoins();
   }
 
-  fetchData = async () => {
+  getCoins = async () => {
     this.setState({loading: true});
+
     const res = await http.instance.get(
       'https://api.coinlore.net/api/tickers/',
     );
-    this.setState({coins: res.data, loading: false});
+
+    this.setState({
+      coins: res.data,
+      allCoins: res.data,
+      loading: false,
+    });
   };
 
   handlePress = (coin) => {
     this.props.navigation.navigate('CoinDetail', {coin});
+  };
+
+  handleSearch = (query) => {
+    const {allCoins} = this.state;
+
+    const filteredCoins = allCoins.filter((coin) => {
+      return (
+        coin.name.match(new RegExp(query, 'i')) ||
+        coin.symbol.match(new RegExp(query, 'i'))
+      );
+    });
+
+    this.setState({coins: filteredCoins});
   };
 
   render() {
@@ -35,12 +56,15 @@ class CoinsScreen extends Component {
         {loading ? (
           <ActivityIndicator color="white" size="large" style={styles.loader} />
         ) : (
-          <FlatList
-            data={coins}
-            renderItem={({item}) => (
-              <CoinsItem item={item} onPress={() => this.handlePress(item)} />
-            )}
-          />
+          <>
+            <CoinsSearch onChange={this.handleSearch} />
+            <FlatList
+              data={coins}
+              renderItem={({item}) => (
+                <CoinsItem item={item} onPress={() => this.handlePress(item)} />
+              )}
+            />
+          </>
         )}
       </View>
     );
