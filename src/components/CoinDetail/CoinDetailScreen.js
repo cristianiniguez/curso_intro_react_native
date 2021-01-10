@@ -7,6 +7,7 @@ import {
   FlatList,
   StyleSheet,
   Pressable,
+  Alert,
 } from 'react-native';
 
 import CoinMarketItem from './CoinMarketItem';
@@ -53,9 +54,33 @@ class CoinDetailScreen extends Component {
 
   toggleFavorite = () => {
     if (this.state.isFavorite) {
-      this.removeFavorite();
+      Alert.alert('Remove favorite', 'Are you sure?', [
+        {
+          text: 'Cancel',
+          onPress: () => {},
+          style: 'cancel',
+        },
+        {
+          text: 'Remove',
+          onPress: this.removeFavorite,
+          style: 'destructive',
+        },
+      ]);
     } else {
       this.addFavorite();
+    }
+  };
+
+  getFavorite = async () => {
+    const {coin} = this.props.route.params;
+    const key = `favorite-${coin.id}`;
+
+    try {
+      const coinStr = await storage.instance.get(key);
+      console.log(coinStr);
+      this.setState({isFavorite: !!coinStr});
+    } catch (error) {
+      console.log('get favorite error', error);
     }
   };
 
@@ -71,12 +96,22 @@ class CoinDetailScreen extends Component {
     }
   };
 
-  removeFavorite = () => {};
+  removeFavorite = async () => {
+    const {coin} = this.props.route.params;
+    const key = `favorite-${coin.id}`;
+
+    const removed = await storage.instance.remove(key);
+
+    if (removed) {
+      this.setState({isFavorite: false});
+    }
+  };
 
   componentDidMount() {
     const {coin} = this.props.route.params;
     this.props.navigation.setOptions({title: coin.symbol});
     this.getMarkets(coin.id);
+    this.getFavorite();
   }
 
   render() {
