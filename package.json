@@ -1,5 +1,5 @@
 {
-  "name": "cryptoTracker",
+  "name": "crypto-tracker",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -34,5 +34,18 @@
   },
   "jest": {
     "preset": "react-native"
-  }
+  },
+  "description": "Proyecto del Curso de Introducción a React Native de Platzi",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cristianiniguez/curso_intro_react_native.git"
+  },
+  "keywords": [],
+  "author": "cristianiniguez <felizpc1@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cristianiniguez/curso_intro_react_native/issues"
+  },
+  "homepage": "https://github.com/cristianiniguez/curso_intro_react_native#readme"
 }
